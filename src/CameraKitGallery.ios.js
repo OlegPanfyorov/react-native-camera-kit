@@ -38,6 +38,24 @@ async function getImageForTapEvent(nativeEvent) {
   return {selectedImageId, imageUri, width: nativeEvent.width, height: nativeEvent.height};
 }
 
+async function getImageForTapEventFC (nativeEvent) {
+  let id
+  let uri
+  if (nativeEvent.selectedId) {
+    id = nativeEvent.selectedId
+    uri = nativeEvent.selected
+    return {id, uri, width: nativeEvent.width, height: nativeEvent.height}
+  } else {
+    id = nativeEvent.selected
+    let { images }  = await getImagesForIds([id])
+    if (images.length) {
+      return images[0]
+    } else {
+      return undefined
+    }
+  }
+}
+
 async function getImagesForCameraEvent(event) {
   return event.captureImages || [];
 }
@@ -67,6 +85,7 @@ export default {
   getImageUriForId,
   getImagesForIds,
   getImageForTapEvent,
+  getImageForTapEventFC,
   getImagesForCameraEvent,
   checkDevicePhotosAuthorizationStatus,
   requestDevicePhotosAuthorization,
