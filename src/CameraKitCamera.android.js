@@ -26,6 +26,11 @@ export default class CameraKitCamera extends React.Component {
 
 	async capture(saveToCameraRoll = true) {
 		const imageTmpPath = await NativeCameraModule.capture(saveToCameraRoll);
+		console.log('imageTmpPath: ', imageTmpPath)
+		if (imageTmpPath.uri) {
+			imageTmpPath.uri = 'file://' + imageTmpPath.uri
+		}
+
 		return imageTmpPath;
 	}
 
