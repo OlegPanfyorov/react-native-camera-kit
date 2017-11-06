@@ -49,7 +49,9 @@ async function getImageForTapEventFC (nativeEvent) {
     id = nativeEvent.selected
     let { images }  = await getImagesForIds([id])
     if (images.length) {
-      return images[0]
+      var selectedImage = images[0];
+      let resizedImage = await resizeImageFC(selectedImage, 'medium')
+      return resizedImage
     } else {
       return undefined
     }
@@ -58,6 +60,12 @@ async function getImageForTapEventFC (nativeEvent) {
 
 async function getImagesForCameraEvent(event) {
   return event.captureImages || [];
+}
+
+async function resizeImageFC(image, quality) {
+
+  const ans = await CKGallery.resizeImage(image, quality);
+  return ans;
 }
 
 async function resizeImage(image = {}, quality = 'original') {
